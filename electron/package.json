@@ -1,0 +1,49 @@
+{
+  "name": "local-image-watermark",
+  "version": "1.0.0",
+  "private": true,
+  "description": "本地图片加水印 - 离线批量水印工具",
+  "main": "main.js",
+  "author": "Local",
+  "scripts": {
+    "sync": "node scripts/sync-app.js",
+    "start": "npm run sync && electron .",
+    "pack": "npm run sync && electron-builder --win portable",
+    "dist": "npm run sync && electron-builder --win portable nsis"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "local.watermark.tool",
+    "productName": "本地图片加水印",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "app/**/*",
+      "build/icon.png"
+    ],
+    "afterPack": "scripts/afterPack.js",
+    "win": {
+      "icon": "build/icon.png",
+      "signAndEditExecutable": false,
+      "target": [
+        { "target": "portable", "arch": ["x64"] },
+        { "target": "nsis", "arch": ["x64"] }
+      ]
+    },
+    "portable": {
+      "artifactName": "本地图片加水印-便携版-${version}.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "本地图片加水印",
+      "artifactName": "本地图片加水印-安装包-${version}.exe"
+    }
+  }
+}
